@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/common/identifiers.schema.json",
+  "title": "ASEP Stable Identifiers",
+  "description": "Canonical, stable identifier patterns shared by all ASEP models. Identifiers are language-independent and never localized. Referenced by other schemas via $ref.",
+  "$defs": {
+    "ProjectId": {
+      "type": "string",
+      "description": "Stable identifier for a managed project.",
+      "pattern": "^PRJ-[A-Z0-9]+(?:-[A-Z0-9]+)*$",
+      "examples": ["PRJ-ADAPTIVE-TRADING"]
+    },
+    "ProfileId": {
+      "type": "string",
+      "description": "Stable identifier for a profile.",
+      "pattern": "^PRF-[A-Z0-9]+(?:-[A-Z0-9]+)*$",
+      "examples": ["PRF-SECURE-BACKEND", "PRF-ISO27001-BASELINE"]
+    },
+    "EngineId": {
+      "type": "string",
+      "description": "Stable identifier for an engine.",
+      "pattern": "^ENG-[A-Z0-9]+(?:-[A-Z0-9]+)*$",
+      "examples": ["ENG-GENERATOR", "ENG-CONVERTER"]
+    },
+    "ControlId": {
+      "type": "string",
+      "description": "Stable identifier for a governance or security control.",
+      "pattern": "^CTL-[A-Z]{2,6}-[0-9]{4}$",
+      "examples": ["CTL-AC-0001", "CTL-SSDF-0007"]
+    },
+    "RiskId": {
+      "type": "string",
+      "description": "Stable identifier for a risk.",
+      "pattern": "^RSK-[0-9]{4}$",
+      "examples": ["RSK-0001"]
+    },
+    "TaskId": {
+      "type": "string",
+      "description": "Stable identifier for a task.",
+      "pattern": "^TSK-[0-9]{4}$",
+      "examples": ["TSK-0001"]
+    },
+    "EvidenceId": {
+      "type": "string",
+      "description": "Stable identifier for an evidence record.",
+      "pattern": "^EVD-[0-9]{4}$",
+      "examples": ["EVD-0001"]
+    },
+    "RequirementId": {
+      "type": "string",
+      "description": "Stable identifier for a requirement.",
+      "pattern": "^REQ-[0-9]{4}$",
+      "examples": ["REQ-0001"]
+    },
+    "GlossaryTermId": {
+      "type": "string",
+      "description": "Stable identifier for a canonical glossary term.",
+      "pattern": "^TRM-[A-Z0-9]+(?:-[A-Z0-9]+)*$",
+      "examples": ["TRM-CONTROL", "TRM-EVIDENCE"]
+    },
+    "LocaleCode": {
+      "type": "string",
+      "description": "BCP-47 style locale code. English is the canonical semantic language.",
+      "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$",
+      "examples": ["en", "ja", "vi", "ko"]
+    },
+    "SemVer": {
+      "type": "string",
+      "description": "Semantic version string.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$",
+      "examples": ["0.1.0"]
+    }
+  }
+}

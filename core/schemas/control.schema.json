@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/control.schema.json",
+  "title": "ASEP Control",
+  "description": "A governance or security control. Controls are the canonical unit of assurance and map to external frameworks (ISO/IEC 27001, NIST SSDF). Controls are satisfied by Evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "id", "title", "objective"],
+  "properties": {
+    "apiVersion": { "type": "string", "const": "asep.dev/v1alpha1" },
+    "kind": { "type": "string", "const": "Control" },
+    "id": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ControlId" },
+    "title": {
+      "type": "string",
+      "description": "Control title in the canonical language.",
+      "minLength": 1
+    },
+    "objective": {
+      "type": "string",
+      "description": "What the control is intended to achieve, in the canonical language.",
+      "minLength": 1
+    },
+    "frameworkReferences": {
+      "type": "array",
+      "description": "Cross-references to external control frameworks.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["framework", "reference"],
+        "properties": {
+          "framework": {
+            "type": "string",
+            "enum": ["ISO_IEC_27001", "NIST_SSDF", "OWASP_ASVS", "CIS", "OTHER"]
+          },
+          "reference": {
+            "type": "string",
+            "description": "Clause or control identifier within the referenced framework, e.g. 'A.8.28' or 'PW.4'."
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "active", "deprecated"],
+      "default": "proposed"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Role accountable for the control (role, never a personal secret/credential)."
+    },
+    "evidence": {
+      "type": "array",
+      "description": "Evidence records that demonstrate satisfaction of this control.",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/EvidenceId" },
+      "uniqueItems": true
+    },
+    "mitigatesRisks": {
+      "type": "array",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/RiskId" },
+      "uniqueItems": true
+    }
+  }
+}

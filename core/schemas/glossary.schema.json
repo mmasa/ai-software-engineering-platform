@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/glossary.schema.json",
+  "title": "ASEP Glossary",
+  "description": "A glossary of canonical terms. The English glossary is the source of truth; localized glossaries are generated artifacts and introduce no new semantics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "locale", "terms"],
+  "properties": {
+    "apiVersion": { "type": "string", "const": "asep.dev/v1alpha1" },
+    "kind": { "type": "string", "const": "Glossary" },
+    "locale": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/LocaleCode" },
+    "terms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "term", "definition"],
+        "properties": {
+          "id": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/GlossaryTermId" },
+          "term": { "type": "string", "minLength": 1 },
+          "definition": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

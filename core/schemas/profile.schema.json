@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/profile.schema.json",
+  "title": "ASEP Profile",
+  "description": "A profile is a reusable, composable bundle of policy: the controls, requirements, default locales, and engine settings applied to a project. Profiles drive platform behavior (profile-driven architecture) and compose via single inheritance ('extends').",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "id", "name"],
+  "properties": {
+    "apiVersion": { "type": "string", "const": "asep.dev/v1alpha1" },
+    "kind": { "type": "string", "const": "Profile" },
+    "id": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ProfileId" },
+    "name": {
+      "type": "string",
+      "description": "Profile name in the canonical language.",
+      "minLength": 1
+    },
+    "description": { "type": "string" },
+    "extends": {
+      "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ProfileId",
+      "description": "Parent profile this profile inherits from. Child values override parent values."
+    },
+    "frameworks": {
+      "type": "array",
+      "description": "Compliance frameworks this profile aligns to.",
+      "items": {
+        "type": "string",
+        "enum": ["ISO_IEC_27001", "NIST_SSDF", "OWASP_ASVS", "CIS", "OTHER"]
+      },
+      "uniqueItems": true
+    },
+    "defaultLocales": {
+      "type": "array",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/LocaleCode" },
+      "uniqueItems": true
+    },
+    "controls": {
+      "type": "array",
+      "description": "Controls mandated by this profile.",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ControlId" },
+      "uniqueItems": true
+    },
+    "requirements": {
+      "type": "array",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/RequirementId" },
+      "uniqueItems": true
+    },
+    "engineSettings": {
+      "type": "object",
+      "description": "Opaque, engine-scoped settings. Structure is owned by each engine; the platform core does not interpret these values.",
+      "additionalProperties": true
+    }
+  }
+}

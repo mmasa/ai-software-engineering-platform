@@ -1,0 +1,37 @@
+# Canonical glossary (English is the source of truth).
+# Each term has a stable ID (TRM-*). Localized glossaries are generated from this
+# file and never define new semantics.
+apiVersion: asep.dev/v1alpha1
+kind: Glossary
+locale: en
+terms:
+  - id: TRM-CONTROL
+    term: Control
+    definition: >-
+      A governance or security safeguard, aligned to an external framework,
+      whose satisfaction is demonstrated by Evidence.
+  - id: TRM-EVIDENCE
+    term: Evidence
+    definition: >-
+      A record demonstrating that a Control is satisfied. The basis of ASEP's
+      evidence-based assurance model.
+  - id: TRM-PROFILE
+    term: Profile
+    definition: >-
+      A reusable, composable bundle of controls, requirements, and settings that
+      drives platform behavior for a project.
+  - id: TRM-PROJECT-MANIFEST
+    term: Project Manifest
+    definition: >-
+      The canonical, single-source-of-truth description of a managed project,
+      from which artifacts are generated.
+  - id: TRM-ENGINE
+    term: Engine
+    definition: >-
+      A unit of platform capability (generate, convert, upgrade, assess,
+      integrate) exposed through a declared boundary contract.
+  - id: TRM-CANONICAL-LANGUAGE
+    term: Canonical Language
+    definition: >-
+      The semantic source language of the platform (English). All logic and
+      identifiers derive from it; other languages are generated artifacts.

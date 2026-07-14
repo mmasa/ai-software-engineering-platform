@@ -1,0 +1,11 @@
+# Example canonical Requirement.
+# Validates against: core/schemas/requirement.schema.json
+apiVersion: asep.dev/v1alpha1
+kind: Requirement
+id: REQ-0001
+statement: >-
+  The platform MUST NOT emit secrets, credentials, or API keys into any
+  generated repository, manifest, documentation, or log.
+priority: must
+satisfiedBy:
+  - CTL-AC-0001

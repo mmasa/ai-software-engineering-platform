@@ -1,0 +1,41 @@
+name: ci
+
+# Minimal CI for Phase 1: validate canonical schemas/examples and run a basic
+# secret scan. Safe by default — read-only, no deployments, no credentials.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-schemas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install harness
+        run: pip install -e ".[test]"
+      - name: Validate schemas and examples
+        run: python -m pytest -q
+
+  secret-scan:
+    # Backs evidence EVD-0001 (control CTL-AC-0001). A best-effort guard, not a
+    # substitute for a dedicated scanner as the platform matures.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for obvious secret patterns
+        run: |
+          set -euo pipefail
+          pattern='(AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----|xox[baprs]-[0-9A-Za-z-]+|ghp_[0-9A-Za-z]{36})'
+          if git grep -nIE "$pattern" -- . ':!.github/workflows/ci.yml'; then
+            echo "::error::Potential secret detected. Remove it before merging."
+            exit 1
+          fi
+          echo "No obvious secrets found."

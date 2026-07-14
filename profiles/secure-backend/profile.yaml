@@ -1,0 +1,19 @@
+# Secure backend service profile.
+# Validates against: core/schemas/profile.schema.json
+apiVersion: asep.dev/v1alpha1
+kind: Profile
+id: PRF-SECURE-BACKEND
+name: Secure Backend Service
+description: >-
+  Profile for backend services. Extends the ISO/IEC 27001 baseline with
+  additional application-security controls.
+extends: PRF-ISO27001-BASELINE
+frameworks:
+  - OWASP_ASVS
+defaultLocales:
+  - en
+controls:
+  - CTL-AC-0001
+engineSettings:
+  ENG-GENERATOR:
+    scaffold: service

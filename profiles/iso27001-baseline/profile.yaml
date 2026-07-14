@@ -1,0 +1,18 @@
+# ISO/IEC 27001 baseline profile.
+# Validates against: core/schemas/profile.schema.json
+apiVersion: asep.dev/v1alpha1
+kind: Profile
+id: PRF-ISO27001-BASELINE
+name: ISO/IEC 27001 Baseline
+description: >-
+  Baseline governance profile aligning generated projects with ISO/IEC 27001
+  and NIST SSDF. Provides a minimum set of controls other profiles extend.
+frameworks:
+  - ISO_IEC_27001
+  - NIST_SSDF
+defaultLocales:
+  - en
+controls:
+  - CTL-AC-0001
+requirements:
+  - REQ-0001

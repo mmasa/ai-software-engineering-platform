@@ -1,0 +1,14 @@
+# Example Japanese localization bundle.
+# GENERATED ARTIFACT. Never referenced by program logic — logic keys on `key`.
+# Validates against: core/schemas/localization.schema.json
+apiVersion: asep.dev/v1alpha1
+kind: LocalizationBundle
+locale: ja
+sourceLocale: en
+entries:
+  - key: control.status.active
+    value: 有効
+    status: generated
+  - key: control.status.deprecated
+    value: 非推奨
+    status: generated

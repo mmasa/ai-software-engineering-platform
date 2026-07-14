@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/requirement.schema.json",
+  "title": "ASEP Requirement",
+  "description": "A requirement expressed in the canonical language. Requirements are traceable to controls and realized through tasks.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "id", "statement"],
+  "properties": {
+    "apiVersion": { "type": "string", "const": "asep.dev/v1alpha1" },
+    "kind": { "type": "string", "const": "Requirement" },
+    "id": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/RequirementId" },
+    "statement": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Normative requirement statement in the canonical language (use RFC-2119 keywords where applicable)."
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["must", "should", "may"],
+      "default": "must"
+    },
+    "satisfiedBy": {
+      "type": "array",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ControlId" },
+      "uniqueItems": true
+    }
+  }
+}

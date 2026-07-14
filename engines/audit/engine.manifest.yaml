@@ -1,0 +1,27 @@
+# Boundary contract for the Audit engine.
+# Validates against: core/schemas/engine-manifest.schema.json
+# STATUS: boundary-only. No assessment logic exists in Phase 1.
+apiVersion: asep.dev/v1alpha1
+kind: EngineManifest
+id: ENG-AUDIT
+name: Quality and Compliance Audit
+capability: assess
+status: boundary-only
+summary: >-
+  Assesses repository quality, performs gap analysis against profiles, and
+  produces evidence-based reports. Read-only by contract.
+contract:
+  inputs:
+    - name: repository
+      kind: Repository
+      required: true
+    - name: profiles
+      kind: Profile
+      required: true
+  outputs:
+    - name: report
+      kind: Report
+    - name: evidence
+      kind: Evidence
+  sideEffects:
+    - reads-repository

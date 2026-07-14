@@ -1,0 +1,28 @@
+# Boundary contract for the Generator engine.
+# Validates against: core/schemas/engine-manifest.schema.json
+# STATUS: boundary-only. No generation logic exists in Phase 1.
+apiVersion: asep.dev/v1alpha1
+kind: EngineManifest
+id: ENG-GENERATOR
+name: Project Generator
+capability: generate
+status: boundary-only
+summary: Generates a new software engineering project from a Project Manifest and Profiles.
+contract:
+  inputs:
+    - name: manifest
+      kind: ProjectManifest
+      required: true
+    - name: profiles
+      kind: Profile
+      required: true
+    - name: templates
+      kind: Template
+      required: false
+  outputs:
+    - name: repository
+      kind: Repository
+    - name: report
+      kind: Report
+  sideEffects:
+    - writes-files
