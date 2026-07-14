@@ -33,8 +33,13 @@ jobs:
       - name: Scan for obvious secret patterns
         run: |
           set -euo pipefail
-          pattern='(AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----|xox[baprs]-[0-9A-Za-z-]+|ghp_[0-9A-Za-z]{36})'
-          if git grep -nIE "$pattern" -- . ':!.github/workflows/ci.yml'; then
+          # Scan the WHOLE repository, including this workflow file: no path is
+          # excluded, so a token hard-coded here in future would also be caught.
+          # Token prefixes are written with single-char classes (e.g. A[K]IA)
+          # so these detection patterns never match their own literal text,
+          # which is what previously forced excluding this file.
+          pattern='(A[K]IA[0-9A-Z]{16}|-----B[E]GIN [A-Z ]*PRIVATE KEY-----|xo[x][baprs]-[0-9A-Za-z-]+|gh[p]_[0-9A-Za-z]{36})'
+          if git grep -nIE "$pattern" -- .; then
             echo "::error::Potential secret detected. Remove it before merging."
             exit 1
           fi

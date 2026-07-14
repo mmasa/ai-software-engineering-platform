@@ -52,9 +52,23 @@ def _load_doc(path: Path) -> dict | None:
     return None
 
 
-def test_at_least_one_example_exists() -> None:
-    docs = [p for p in _document_paths() if _load_doc(p) is not None]
-    assert docs, "Expected to discover at least one canonical example document"
+def _discovered_kinds() -> set[str]:
+    kinds = set()
+    for path in _document_paths():
+        doc = _load_doc(path)
+        if doc is not None:
+            kinds.add(doc["kind"])
+    return kinds
+
+
+@pytest.mark.parametrize("kind", sorted(KIND_TO_SCHEMA), ids=lambda k: k)
+def test_every_canonical_kind_has_an_example(kind: str) -> None:
+    """The repo's schema-plus-example rule: every schema must be exercised by at
+    least one example document, so CI catches regressions in that model."""
+    assert kind in _discovered_kinds(), (
+        f"No example document found for kind '{kind}'. "
+        f"Add a validating instance so {KIND_TO_SCHEMA[kind]} is exercised."
+    )
 
 
 @pytest.mark.parametrize("doc_path", _document_paths(), ids=lambda p: p.relative_to(REPO_ROOT).as_posix())

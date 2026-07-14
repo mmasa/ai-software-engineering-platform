@@ -29,8 +29,8 @@
       "description": "Short project description in the canonical language."
     },
     "canonicalLanguage": {
-      "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/LocaleCode",
-      "description": "Semantic source language. MUST be 'en'."
+      "const": "en",
+      "description": "Semantic source language. MUST be 'en' (ADR 0001); enforced, not merely documented."
     },
     "locales": {
       "type": "array",

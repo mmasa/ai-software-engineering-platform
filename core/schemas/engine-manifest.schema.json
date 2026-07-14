@@ -32,7 +32,7 @@
     "contract": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["inputs", "outputs"],
+      "required": ["inputs", "outputs", "sideEffects"],
       "description": "The engine's boundary: what it consumes and what it produces. Both are described by kind, never by implementation.",
       "properties": {
         "inputs": {
@@ -45,12 +45,12 @@
         },
         "sideEffects": {
           "type": "array",
-          "description": "Declared side effects. Safe-by-default: destructive or external effects MUST be declared here and are disabled unless explicitly enabled.",
+          "description": "Declared side effects. REQUIRED so effects are always explicit (JSON Schema 'default' is an annotation and is not applied by validators). Safe-by-default: an engine with no external effects MUST declare [\"none\"]; destructive or external effects MUST be listed and are disabled unless explicitly enabled.",
+          "minItems": 1,
           "items": {
             "type": "string",
             "enum": ["none", "writes-files", "reads-repository", "network", "creates-pull-request"]
-          },
-          "default": ["none"]
+          }
         }
       }
     },
@@ -71,7 +71,7 @@
         "kind": {
           "type": "string",
           "description": "Logical type of data crossing the boundary.",
-          "enum": ["ProjectManifest", "Profile", "Control", "Evidence", "LocalizationBundle", "Repository", "Report", "Template", "Other"]
+          "enum": ["ProjectManifest", "Profile", "Control", "Evidence", "Task", "LocalizationBundle", "Repository", "Report", "Template", "Other"]
         },
         "required": { "type": "boolean", "default": true }
       }

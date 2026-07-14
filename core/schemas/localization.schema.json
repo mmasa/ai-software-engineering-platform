@@ -13,8 +13,8 @@
       "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/LocaleCode"
     },
     "sourceLocale": {
-      "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/LocaleCode",
-      "description": "Canonical source locale the entries were derived from. MUST be 'en'."
+      "const": "en",
+      "description": "Canonical source locale the entries were derived from. MUST be 'en' (ADR 0001); enforced, not merely documented."
     },
     "entries": {
       "type": "array",
