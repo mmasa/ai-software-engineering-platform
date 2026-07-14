@@ -1,0 +1,31 @@
+# ASEP tooling project descriptor.
+#
+# The platform itself is language-independent; this file exists ONLY to support
+# the schema-validation test harness. It intentionally declares no runtime
+# package and no business logic.
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# This repository ships schemas and docs, not a Python package. Declaring no
+# modules keeps `pip install -e .` valid while installing only the test deps.
+py-modules = []
+
+[project]
+name = "asep-harness"
+version = "0.1.0"
+description = "Schema-validation harness for the AI Software Engineering Platform."
+requires-python = ">=3.10"
+dependencies = [
+    "jsonschema>=4.21",
+    "referencing>=0.33",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]

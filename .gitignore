@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# Local environment
+.env
+.env.*
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+
+# Local Claude Code settings
+.claude/settings.local.json

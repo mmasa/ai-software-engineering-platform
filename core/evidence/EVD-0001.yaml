@@ -1,0 +1,14 @@
+# Example canonical Evidence record.
+# Validates against: core/schemas/evidence.schema.json
+apiVersion: asep.dev/v1alpha1
+kind: Evidence
+id: EVD-0001
+controlId: CTL-AC-0001
+type: scan-result
+summary: >-
+  Continuous integration runs a secret-scanning step on every pull request and
+  blocks merges when a candidate secret is detected.
+location: .github/workflows/ci.yml
+verification:
+  status: unverified
+  method: automated

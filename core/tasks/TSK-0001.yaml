@@ -1,0 +1,13 @@
+# Example canonical Task.
+# Validates against: core/schemas/task.schema.json
+apiVersion: asep.dev/v1alpha1
+kind: Task
+id: TSK-0001
+title: Enforce no-secrets policy in continuous integration
+description: >-
+  Add and maintain a CI step that scans the repository for credentials on every
+  pull request, providing the evidence that satisfies the no-secrets control.
+status: done
+implements:
+  - REQ-0001
+  - CTL-AC-0001

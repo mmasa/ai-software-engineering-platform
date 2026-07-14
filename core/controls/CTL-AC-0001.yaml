@@ -1,0 +1,20 @@
+# Example canonical Control.
+# Validates against: core/schemas/control.schema.json
+apiVersion: asep.dev/v1alpha1
+kind: Control
+id: CTL-AC-0001
+title: Secrets are never committed to the repository
+objective: >-
+  Ensure that no credentials, API keys, tokens, or other secrets are stored in
+  source control, in manifests, or in generated artifacts.
+frameworkReferences:
+  - framework: ISO_IEC_27001
+    reference: A.8.24
+  - framework: NIST_SSDF
+    reference: PW.1
+status: active
+owner: Principal Security Architect
+evidence:
+  - EVD-0001
+mitigatesRisks:
+  - RSK-0001

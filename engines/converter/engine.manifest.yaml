@@ -1,0 +1,25 @@
+# Boundary contract for the Converter engine.
+# Validates against: core/schemas/engine-manifest.schema.json
+# STATUS: boundary-only. No conversion logic exists in Phase 1.
+apiVersion: asep.dev/v1alpha1
+kind: EngineManifest
+id: ENG-CONVERTER
+name: Legacy Converter
+capability: convert
+status: boundary-only
+summary: Converts a legacy repository into an ASEP-managed project.
+contract:
+  inputs:
+    - name: repository
+      kind: Repository
+      required: true
+    - name: profiles
+      kind: Profile
+      required: false
+  outputs:
+    - name: manifest
+      kind: ProjectManifest
+    - name: report
+      kind: Report
+  sideEffects:
+    - reads-repository

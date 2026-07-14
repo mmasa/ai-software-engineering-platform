@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/task.schema.json",
+  "title": "ASEP Task",
+  "description": "A unit of engineering work. Tasks are the canonical bridge between requirements/controls and generated GitHub Projects items. They carry stable IDs so tracking survives regeneration.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "id", "title"],
+  "properties": {
+    "apiVersion": { "type": "string", "const": "asep.dev/v1alpha1" },
+    "kind": { "type": "string", "const": "Task" },
+    "id": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/TaskId" },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["todo", "in-progress", "blocked", "done"],
+      "default": "todo"
+    },
+    "implements": {
+      "type": "array",
+      "description": "Requirements and/or controls this task realizes.",
+      "items": {
+        "anyOf": [
+          { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/RequirementId" },
+          { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ControlId" }
+        ]
+      },
+      "uniqueItems": true
+    },
+    "dependsOn": {
+      "type": "array",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/TaskId" },
+      "uniqueItems": true
+    }
+  }
+}

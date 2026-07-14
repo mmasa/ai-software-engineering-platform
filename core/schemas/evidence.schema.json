@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/evidence.schema.json",
+  "title": "ASEP Evidence",
+  "description": "An evidence record demonstrating that a control is satisfied. Evidence is the basis of the platform's evidence-based assurance model. Evidence references artifacts by location; it never embeds secrets or credentials.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "id", "controlId", "type", "summary"],
+  "properties": {
+    "apiVersion": { "type": "string", "const": "asep.dev/v1alpha1" },
+    "kind": { "type": "string", "const": "Evidence" },
+    "id": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/EvidenceId" },
+    "controlId": {
+      "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ControlId",
+      "description": "The control this evidence supports."
+    },
+    "type": {
+      "type": "string",
+      "description": "Nature of the evidence.",
+      "enum": ["document", "test-result", "scan-result", "review", "attestation", "artifact", "configuration"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Human-readable summary in the canonical language.",
+      "minLength": 1
+    },
+    "location": {
+      "type": "string",
+      "description": "Non-secret pointer to the evidence (repository path, URL, or artifact reference). MUST NOT contain credentials."
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["unverified", "verified", "rejected"],
+          "default": "unverified"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["automated", "manual", "hybrid"]
+        }
+      }
+    },
+    "collectedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of collection."
+    }
+  }
+}

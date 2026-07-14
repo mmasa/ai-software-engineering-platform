@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/engine-manifest.schema.json",
+  "title": "ASEP Engine Manifest",
+  "description": "Declarative boundary contract for an engine. Engines are the platform's units of capability (generation, conversion, upgrade, audit, integration). A manifest declares an engine's identity, contract, and lifecycle status WITHOUT prescribing implementation. Engines MUST NOT be tightly coupled to one another.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "id", "name", "capability", "status", "contract"],
+  "properties": {
+    "apiVersion": { "type": "string", "const": "asep.dev/v1alpha1" },
+    "kind": { "type": "string", "const": "EngineManifest" },
+    "id": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/EngineId" },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Engine name in the canonical language."
+    },
+    "capability": {
+      "type": "string",
+      "description": "The single primary capability class this engine provides.",
+      "enum": ["generate", "convert", "upgrade", "assess", "integrate"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Lifecycle status. Phase 1 engines are boundaries only.",
+      "enum": ["boundary-only", "planned", "experimental", "stable", "deprecated"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "One-line description of the engine's responsibility."
+    },
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inputs", "outputs", "sideEffects"],
+      "description": "The engine's boundary: what it consumes and what it produces. Both are described by kind, never by implementation.",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/port" }
+        },
+        "outputs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/port" }
+        },
+        "sideEffects": {
+          "type": "array",
+          "description": "Declared side effects. REQUIRED so effects are always explicit (JSON Schema 'default' is an annotation and is not applied by validators). Safe-by-default: an engine with no external effects MUST declare [\"none\"]; destructive or external effects MUST be listed and are disabled unless explicitly enabled.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["none", "writes-files", "reads-repository", "network", "creates-pull-request"]
+          }
+        }
+      }
+    },
+    "dependsOn": {
+      "type": "array",
+      "description": "Other engines this engine depends on, by stable ID. Dependencies MUST form a directed acyclic graph.",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/EngineId" },
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "port": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "kind"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "kind": {
+          "type": "string",
+          "description": "Logical type of data crossing the boundary.",
+          "enum": ["ProjectManifest", "Profile", "Control", "Evidence", "Task", "LocalizationBundle", "Repository", "Report", "Template", "Other"]
+        },
+        "required": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}

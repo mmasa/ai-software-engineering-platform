@@ -1,0 +1,29 @@
+# Boundary contract for the Upgrade engine.
+# Validates against: core/schemas/engine-manifest.schema.json
+# STATUS: boundary-only. No upgrade logic exists in Phase 1.
+apiVersion: asep.dev/v1alpha1
+kind: EngineManifest
+id: ENG-UPGRADE
+name: Repository Upgrade
+capability: upgrade
+status: boundary-only
+summary: Upgrades an existing ASEP-managed repository to newer profiles or standards.
+contract:
+  inputs:
+    - name: repository
+      kind: Repository
+      required: true
+    - name: manifest
+      kind: ProjectManifest
+      required: true
+    - name: profiles
+      kind: Profile
+      required: true
+  outputs:
+    - name: report
+      kind: Report
+  sideEffects:
+    - reads-repository
+    - creates-pull-request
+dependsOn:
+  - ENG-AUDIT

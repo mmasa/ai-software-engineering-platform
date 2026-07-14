@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/project-manifest.schema.json",
+  "title": "ASEP Project Manifest",
+  "description": "The canonical, manifest-driven description of a project managed by ASEP. This is the single source of truth from which documentation, governance, and generated artifacts are derived. It contains no business logic and no secrets.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "id", "name", "canonicalLanguage", "profiles"],
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "description": "Manifest schema contract version.",
+      "const": "asep.dev/v1alpha1"
+    },
+    "kind": {
+      "type": "string",
+      "const": "ProjectManifest"
+    },
+    "id": {
+      "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ProjectId"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable project name in the canonical language (English).",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "description": "Short project description in the canonical language."
+    },
+    "canonicalLanguage": {
+      "const": "en",
+      "description": "Semantic source language. MUST be 'en' (ADR 0001); enforced, not merely documented."
+    },
+    "locales": {
+      "type": "array",
+      "description": "Locales for which localized artifacts are generated. Localization never affects logic.",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/LocaleCode" },
+      "uniqueItems": true
+    },
+    "profiles": {
+      "type": "array",
+      "description": "Profiles applied to this project, in precedence order (later overrides earlier).",
+      "minItems": 1,
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ProfileId" },
+      "uniqueItems": true
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Non-secret repository coordinates. Credentials are never stored here.",
+      "properties": {
+        "topology": {
+          "type": "string",
+          "enum": ["monorepo", "polyrepo"]
+        },
+        "defaultBranch": { "type": "string" },
+        "primaryLanguage": { "type": "string" }
+      }
+    },
+    "controls": {
+      "type": "array",
+      "description": "Governance/security controls in scope, referenced by stable ID.",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/ControlId" },
+      "uniqueItems": true
+    },
+    "requirements": {
+      "type": "array",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/RequirementId" },
+      "uniqueItems": true
+    },
+    "risks": {
+      "type": "array",
+      "items": { "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/RiskId" },
+      "uniqueItems": true
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Open, non-authoritative annotations. MUST NOT be used for program logic.",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,14 @@
+# Example canonical Risk.
+# Validates against: core/schemas/risk.schema.json
+apiVersion: asep.dev/v1alpha1
+kind: Risk
+id: RSK-0001
+title: Secret leakage through generated artifacts
+description: >-
+  A generator or template could inadvertently embed a credential into a
+  generated repository or manifest, exposing it in source control.
+likelihood: medium
+impact: high
+status: mitigated
+mitigatedBy:
+  - CTL-AC-0001

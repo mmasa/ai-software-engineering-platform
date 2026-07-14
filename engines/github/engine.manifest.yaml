@@ -1,0 +1,27 @@
+# Boundary contract for the GitHub Integration engine.
+# Validates against: core/schemas/engine-manifest.schema.json
+# STATUS: boundary-only. No integration logic and NO credentials exist in Phase 1.
+apiVersion: asep.dev/v1alpha1
+kind: EngineManifest
+id: ENG-GITHUB
+name: GitHub Integration
+capability: integrate
+status: boundary-only
+summary: >-
+  Projects canonical Tasks into GitHub Projects and manages pull-request-based
+  change. All change flows through pull requests; no direct writes to protected
+  branches.
+contract:
+  inputs:
+    - name: tasks
+      kind: Task
+      required: true
+    - name: manifest
+      kind: ProjectManifest
+      required: true
+  outputs:
+    - name: report
+      kind: Report
+  sideEffects:
+    - network
+    - creates-pull-request

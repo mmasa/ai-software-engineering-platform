@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asep.dev/schemas/localization.schema.json",
+  "title": "ASEP Localization Bundle",
+  "description": "A bundle of localized strings for a single locale. English is the canonical semantic language; localized values are generated artifacts. Canonical keys are stable and language-independent; localized values MUST NEVER be used for program logic.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "locale", "entries"],
+  "properties": {
+    "apiVersion": { "type": "string", "const": "asep.dev/v1alpha1" },
+    "kind": { "type": "string", "const": "LocalizationBundle" },
+    "locale": {
+      "$ref": "https://asep.dev/schemas/common/identifiers.schema.json#/$defs/LocaleCode"
+    },
+    "sourceLocale": {
+      "const": "en",
+      "description": "Canonical source locale the entries were derived from. MUST be 'en' (ADR 0001); enforced, not merely documented."
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "value"],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Stable canonical key (language-independent). Program logic keys on this, never on the value.",
+            "pattern": "^[a-z0-9]+(?:\\.[a-z0-9_-]+)+$",
+            "examples": ["control.status.active", "cli.command.assess.summary"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Localized, human-facing string for this locale. Generated artifact."
+          },
+          "sourceHash": {
+            "type": "string",
+            "description": "Hash of the canonical (English) source string, used to detect drift and mark translations stale.",
+            "pattern": "^[a-f0-9]{8,64}$"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["generated", "reviewed", "stale"],
+            "default": "generated"
+          }
+        }
+      }
+    }
+  }
+}
